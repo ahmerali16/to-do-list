@@ -1,5 +1,6 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
+const appearanceToggle = document.getElementById("appearance-toggle");
 
 listContainer.addEventListener("click", function(e) {
     if (e.target.tagName === "LI") {
@@ -33,7 +34,25 @@ function saveData() {
 }
 
 function showTask() {
-    listContainer.innerHTML = localStorage.getItem("data");
+    const data = localStorage.getItem("data");
+    if (data) {
+        listContainer.innerHTML = data;
+    }
 }
 
-showTask();
+// Dark mode toggle and persistence
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
+    showTask();
+});
+
+appearanceToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        localStorage.setItem("darkMode", "disabled");
+    }
+});
